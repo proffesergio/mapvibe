@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { slangBadgeText } from "@/data/slangs";
 import { DISTRICTS, DIVISION_BN, DIVISIONS, districtById } from "@/data/districts";
+import { UPAZILA_COUNT, upazilasOf } from "@/data/upazilas";
 import { usePersistentState } from "@/hooks/usePersistentState";
 import { usePublicSlangs } from "@/hooks/usePublicSlangs";
 import { loadJSON, saveJSON } from "@/lib/storage";
@@ -38,6 +39,14 @@ export function SlangTracker() {
     () => DISTRICTS.filter((d) => d.division === form.division),
     [form.division]
   );
+  const upazilaList = useMemo(() => upazilasOf(form.districtId), [form.districtId]);
+  const upazilaValue = upazilaList.includes(form.upazila) ? form.upazila : (upazilaList[0] ?? "");
+
+  const pickDivision = (division) => {
+    const first = DISTRICTS.find((d) => d.division === division)?.id ?? "dhaka";
+    setForm({ ...form, division, districtId: first, upazila: "" });
+  };
+  const pickDistrict = (districtId) => setForm({ ...form, districtId, upazila: "" });
 
   const visible = useMemo(() => {
     const needle = q.trim().toLowerCase();
@@ -81,7 +90,7 @@ export function SlangTracker() {
         example: form.example.trim().slice(0, 200),
         division: form.division,
         districtId: form.districtId,
-        upazila: form.upazila.trim().slice(0, 60),
+        upazila: upazilaValue,
         contributor: form.contributor.trim().slice(0, 40) || "বেনামি",
       });
       setPicked((p) => (p.includes(entry.id) ? p : [...p, entry.id]));
@@ -205,13 +214,13 @@ export function SlangTracker() {
       </div>
 
       <Card>
-        <SectionTitle emoji="＋" title="নতুন ভাষা যোগ করো" desc="এলাকা বেছে → স্থানীয় ভাষা → প্রমিত বাংলা অর্থ" />
+        <SectionTitle emoji="＋" title="নতুন ভাষা যোগ করো" desc={`বিভাগ → জেলা → উপজেলা (${UPAZILA_COUNT}টি) বেছে → স্থানীয় ভাষা → প্রমিত বাংলা অর্থ`} />
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
           <label className="flex flex-col gap-1 text-xs font-extrabold text-slate-500 dark:text-slate-400">
             বিভাগ
             <select
               value={form.division}
-              onChange={(e) => setForm({ ...form, division: e.target.value, districtId: DISTRICTS.find((d) => d.division === e.target.value)?.id ?? "dhaka" })}
+              onChange={(e) => pickDivision(e.target.value)}
               className="h-11 rounded-xl border-2 border-slate-200 px-3 text-sm font-bold text-slate-800 outline-none focus:border-violet-500 dark:border-white/10 dark:bg-slate-900 dark:text-white"
             >
               {DIVISIONS.map((dv) => (
@@ -225,7 +234,7 @@ export function SlangTracker() {
             জেলা
             <select
               value={form.districtId}
-              onChange={(e) => setForm({ ...form, districtId: e.target.value })}
+              onChange={(e) => pickDistrict(e.target.value)}
               className="h-11 rounded-xl border-2 border-slate-200 px-3 text-sm font-bold text-slate-800 outline-none focus:border-violet-500 dark:border-white/10 dark:bg-slate-900 dark:text-white"
             >
               {districtsInDivision.map((d) => (
@@ -236,13 +245,18 @@ export function SlangTracker() {
             </select>
           </label>
           <label className="flex flex-col gap-1 text-xs font-extrabold text-slate-500 dark:text-slate-400">
-            উপজেলা / এলাকা (যদি জানো)
-            <input
-              value={form.upazila}
+            উপজেলা ({toBnDigits(upazilaList.length)}টি)
+            <select
+              value={upazilaValue}
               onChange={(e) => setForm({ ...form, upazila: e.target.value })}
-              placeholder="যেমন: সাভার, পতিয়া"
-              className="h-11 rounded-xl border-2 border-slate-200 px-3 text-sm font-bold text-slate-800 outline-none focus:border-violet-500 dark:border-white/10 dark:bg-white/5 dark:text-white"
-            />
+              className="h-11 rounded-xl border-2 border-slate-200 px-3 text-sm font-bold text-slate-800 outline-none focus:border-violet-500 dark:border-white/10 dark:bg-slate-900 dark:text-white"
+            >
+              {upazilaList.map((u) => (
+                <option key={u} value={u}>
+                  {u}
+                </option>
+              ))}
+            </select>
           </label>
         </div>
         <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
