@@ -3,7 +3,7 @@
 import { usePersistentState } from "@/hooks/usePersistentState";
 import { explorerBadgeText, getRankTier, toBnDigits } from "@/lib/rank";
 import { cn } from "@/lib/cn";
-import { RealBdMap } from "@/components/map/RealBdMap";
+import { StudioMap } from "@/components/map/StudioMap";
 import { DistrictChips } from "@/components/map/DistrictChips";
 import { Badge, Card, SectionTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -46,15 +46,13 @@ export function ExplorerTracker() {
       </Card>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
-        <Card className="lg:col-span-2 lg:sticky lg:top-20 lg:self-start">
-          <SectionTitle emoji="🗺️" title="লাইভ ম্যাপ" desc="ঘোরা জেলাগুলো সবুজে ভরছে" />
-          <div className="mx-auto max-w-[380px]">
-            <RealBdMap activeIds={visited} activeFill="#047857" onToggle={toggle} />
-          </div>
-          <p className="mt-2 text-center text-sm font-bold text-slate-600 dark:text-slate-300">
-            {toBnDigits(visited.length)}/৬৪ জেলা • {toBnDigits(pct)}%
-          </p>
-        </Card>
+        <StudioMap
+          activeIds={visited}
+          activeFill="#047857"
+          onToggle={toggle}
+          desc="ঘোরা জেলাগুলো সবুজে ভরছে"
+          caption={`${toBnDigits(visited.length)}/৬৪ জেলা • ${toBnDigits(pct)}%`}
+        />
 
         <Card className="lg:col-span-3">
           <SectionTitle emoji="🏆" title="কোন কোন জেলায় ঘুরেছো?" desc="ম্যাপ বা চিপে ট্যাপ করে মার্ক করো" />

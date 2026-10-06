@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useStudioSnapshot } from "@/hooks/useStudioSnapshot";
-import { VIRAL_NOTICE, downloadPoster } from "@/lib/download";
+import { VIRAL_NOTICE, downloadJpg, downloadPdf, downloadPoster } from "@/lib/download";
 import { PosterCanvas } from "./PosterCanvas";
 import { Card, SectionTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -16,7 +16,7 @@ export function PosterSection({ tab }) {
   const wrapRef = useRef(null);
   const posterRef = useRef(null);
   const [scale, setScale] = useState(0);
-  const [busy, setBusy] = useState(false);
+  const [busyFmt, setBusyFmt] = useState(null);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
@@ -33,17 +33,20 @@ export function PosterSection({ tab }) {
 
   const caption = `আমার ম্যাপভাইব পোস্টার! 🗺️🇧🇩 #MapVibe #বাংলাদেশ`;
 
-  const onDownload = async () => {
-    setBusy(true);
+  const onDownload = async (fmt) => {
+    if (busyFmt) return;
+    setBusyFmt(fmt);
     setError("");
     setDone(false);
     try {
-      await downloadPoster(posterRef.current, `mapvibe-${tab}-1080.png`);
+      if (fmt === "jpg") await downloadJpg(posterRef.current, `mapvibe-${tab}-1080.jpg`);
+      else if (fmt === "pdf") await downloadPdf(posterRef.current, `mapvibe-${tab}-1080.pdf`);
+      else await downloadPoster(posterRef.current, `mapvibe-${tab}-1080.png`);
       setDone(true);
     } catch {
       setError("ডাউনলোড ব্যর্থ — আরেকবার চেষ্টা করো।");
     } finally {
-      setBusy(false);
+      setBusyFmt(null);
     }
   };
 
@@ -82,9 +85,28 @@ export function PosterSection({ tab }) {
         </div>
       </div>
 
-      <Button size="lg" onClick={onDownload} disabled={busy} className="mt-4">
-        {busy ? "⏳ ছবি বানানো হচ্ছে…" : "⬇️ ডাউনলোড ও ফেসবুকে শেয়ার করুন"}
-      </Button>
+      <div className="mt-4 grid grid-cols-3 gap-2">
+        {[
+          { id: "png", label: "🖼️ PNG", hint: "সেরা কোয়ালিটি" },
+          { id: "jpg", label: "📷 JPG", hint: "ছোট ফাইল" },
+          { id: "pdf", label: "📄 PDF", hint: "প্রিন্ট" },
+        ].map((f) => (
+          <Button
+            key={f.id}
+            size="lg"
+            onClick={() => onDownload(f.id)}
+            disabled={Boolean(busyFmt)}
+            className="flex-col !h-auto py-3"
+            title={f.hint}
+          >
+            {busyFmt === f.id ? "⏳…" : f.label}
+            <span className="text-[11px] font-medium opacity-70">{f.hint}</span>
+          </Button>
+        ))}
+      </div>
+      <p className="mt-2 text-xs font-bold text-slate-500 dark:text-slate-400">
+        ⬇️ ফরম্যাট বেছে চাপ দাও → ফেসবুক ওয়াল / স্টোরিতে শেয়ার করো
+      </p>
 
       {error && (
         <p className="mt-2 rounded-xl bg-rose-50 px-3 py-2 text-sm font-bold text-rose-600 dark:bg-rose-400/10 dark:text-rose-300">

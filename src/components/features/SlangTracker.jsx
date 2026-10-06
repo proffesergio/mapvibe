@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { slangBadgeText } from "@/data/slangs";
 import { DISTRICTS, DIVISION_BN, DIVISIONS, districtById } from "@/data/districts";
 import { UPAZILA_COUNT, upazilasOf } from "@/data/upazilas";
@@ -9,7 +9,7 @@ import { usePublicSlangs } from "@/hooks/usePublicSlangs";
 import { loadJSON, saveJSON } from "@/lib/storage";
 import { toBnDigits } from "@/lib/rank";
 import { cn } from "@/lib/cn";
-import { RealBdMap } from "@/components/map/RealBdMap";
+import { StudioMap } from "@/components/map/StudioMap";
 import { Badge, Card, SectionTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
@@ -74,9 +74,35 @@ export function SlangTracker() {
     }
   };
 
+  // Full snapshot of picked entries for the poster image (covers Neon rows
+  // that the local seed list doesn't know about).
+  const persistPickedDetails = (ids, list) => {
+    try {
+      saveJSON(
+        "slang-picked-details",
+        ids.map((id) => {
+          const s = list.find((x) => x.id === id);
+          return s
+            ? { id, phrase: s.phrase, meaning: s.meaning, districtId: regionOf(s), upazila: s.upazila ?? "" }
+            : { id, phrase: "", meaning: "", districtId: loadJSON("slang-picked-regions", {})[id] ?? "dhaka", upazila: "" };
+        })
+      );
+    } catch {
+      /* ignore */
+    }
+  };
+
+  // Re-sync details once the public feed arrives (picked ids may predate it).
+  useEffect(() => {
+    persistPickedDetails(picked, slangs);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slangs]);
+
   const toggle = (s) => {
-    setPicked((p) => (p.includes(s.id) ? p.filter((x) => x !== s.id) : [...p, s.id]));
+    const next = picked.includes(s.id) ? picked.filter((x) => x !== s.id) : [...picked, s.id];
+    setPicked(next);
     persistRegionMap(s.id, regionOf(s));
+    persistPickedDetails(next, slangs);
   };
 
   const onSubmit = async () => {
@@ -93,8 +119,10 @@ export function SlangTracker() {
         upazila: upazilaValue,
         contributor: form.contributor.trim().slice(0, 40) || "বেনামি",
       });
-      setPicked((p) => (p.includes(entry.id) ? p : [...p, entry.id]));
+      const nextPicked = picked.includes(entry.id) ? picked : [...picked, entry.id];
+      setPicked(nextPicked);
       persistRegionMap(entry.id, entry.districtId);
+      persistPickedDetails(nextPicked, [...slangs, entry]);
       setForm((f) => ({ ...f, upazila: "", phrase: "", meaning: "", example: "" }));
       setNotice(db ? "✅ প্রকাশ হয়েছে! সবার তালিকায় যোগ হলো।" : "✅ সেভ হয়েছে (এই ডিভাইসে — Neon যুক্ত করলে সবার কাছে যাবে)।");
     } catch {
@@ -108,15 +136,12 @@ export function SlangTracker() {
   return (
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
-        <Card className="lg:col-span-2 lg:sticky lg:top-20 lg:self-start">
-          <SectionTitle emoji="🗺️" title="লাইভ ম্যাপ" desc="সিলেক্ট করলেই উৎপত্তি জেলা ভরে উঠবে" />
-          <div className="mx-auto max-w-[380px]">
-            <RealBdMap activeIds={regionIds} activeFill="#7c3aed" />
-          </div>
-          <p className="mt-2 text-center text-sm font-bold text-slate-600 dark:text-slate-300">
-            {toBnDigits(regionIds.length)}টি জেলা হাইলাইট • {toBnDigits(picked.length)}টি ভাষা
-          </p>
-        </Card>
+        <StudioMap
+          activeIds={regionIds}
+          activeFill="#7c3aed"
+          desc="সিলেক্ট করলেই উৎপত্তি জেলা ভরে উঠবে"
+          caption={`${toBnDigits(regionIds.length)}টি জেলা হাইলাইট • ${toBnDigits(picked.length)}টি ভাষা`}
+        />
 
         <Card className="lg:col-span-3">
           <SectionTitle
@@ -308,7 +333,15 @@ export function SlangTracker() {
           ))}
         </div>
         {picked.length > 0 && (
-          <Button variant="ghost" size="sm" className="mt-2 w-auto" onClick={() => setPicked([])}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="mt-2 w-auto"
+            onClick={() => {
+              setPicked([]);
+              persistPickedDetails([], slangs);
+            }}
+          >
             ↺ সব মুছুন
           </Button>
         )}

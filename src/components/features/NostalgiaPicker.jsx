@@ -6,7 +6,7 @@ import { districtById } from "@/data/districts";
 import { usePersistentState } from "@/hooks/usePersistentState";
 import { toBnDigits } from "@/lib/rank";
 import { cn } from "@/lib/cn";
-import { RealBdMap } from "@/components/map/RealBdMap";
+import { StudioMap } from "@/components/map/StudioMap";
 import { DistrictChips } from "@/components/map/DistrictChips";
 import { Card, SectionTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -127,19 +127,13 @@ export function NostalgiaPicker() {
       </Card>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
-        <Card className="lg:col-span-2 lg:sticky lg:top-20 lg:self-start">
-          <SectionTitle emoji="🗺️" title="কোথায় কেটেছে শৈশব?" desc="এই জেলাটাই পোস্টারের ম্যাপে জ্বলবে" />
-          <div className="mx-auto max-w-[380px]">
-            <RealBdMap
-              activeIds={districtId ? [districtId] : []}
-              activeFill="#b45309"
-              onToggle={(id) => setDistrictId(id)}
-            />
-          </div>
-          <p className="mt-2 text-center text-sm font-bold text-slate-600 dark:text-slate-300">
-            {district ? `📍 ${district.name} — এখানেই এই স্মৃতিগুলো` : "জেলা বেছে নাও"}
-          </p>
-        </Card>
+        <StudioMap
+          activeIds={districtId ? [districtId] : []}
+          activeFill="#b45309"
+          onToggle={(id) => setDistrictId(id)}
+          desc="তোমার শৈশবের জেলা"
+          caption={district ? `📍 ${district.name} — এখানেই এই স্মৃতিগুলো` : "জেলা বেছে নাও"}
+        />
 
         <div className="flex flex-col gap-4 lg:col-span-3">
           <Card>

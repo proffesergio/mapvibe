@@ -63,6 +63,24 @@ function Chip({ label, dark }) {
   );
 }
 
+/** Compact chip so ALL picked phrases fit on the 1080 poster. */
+function ChipSm({ label, dark }) {
+  return (
+    <span
+      style={{
+        display: "inline-block",
+        padding: "7px 16px",
+        borderRadius: 9999,
+        fontSize: 26,
+        fontWeight: 700,
+        background: dark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.06)",
+      }}
+    >
+      {label}
+    </span>
+  );
+}
+
 /**
  * Pixel-perfect 1080x1080 poster. Fixed px sizes + explicit colors only
  * (no responsive / dark-mode classes) so html-to-image export is exact.
@@ -112,6 +130,24 @@ export function PosterCanvas({ tab, snap, innerRef }) {
   const regionNames = activeIds.map((id) => districtById(id)?.name).filter(Boolean).slice(0, 8);
   const pickedMemories = (snap.nostalgiaMemories ?? []).map(memoryById).filter(Boolean).slice(0, 6);
   const storyLine = (snap.nostalgiaStory ?? "").trim().slice(0, 120);
+  // All picked phrases for the Language poster: public-feed snapshot first,
+  // local seed list as fallback (covers pre-DB picks).
+  const pickedDetails = loadJSON("slang-picked-details", []);
+  const pickedPhrases =
+    tab === "slang"
+      ? snap.slangPicked
+          .map((id) => {
+            const snap_hit = pickedDetails.find((d) => String(d.id) === String(id));
+            if (snap_hit?.phrase) return snap_hit;
+            const local = slangs.find((s) => String(s.id) === String(id));
+            return local
+              ? { id, phrase: local.phrase, meaning: local.meaning, districtId: local.regionId, upazila: "" }
+              : null;
+          })
+          .filter(Boolean)
+      : [];
+  const slangMapH =
+    pickedPhrases.length === 0 ? 560 : pickedPhrases.length <= 4 ? 420 : pickedPhrases.length <= 9 ? 320 : 220;
 
   return (
     <div
@@ -201,6 +237,29 @@ export function PosterCanvas({ tab, snap, innerRef }) {
                   <Chip key={m.id} label={`${m.emoji} ${m.label}`} dark={dark} />
                 ))}
               </div>
+            )}
+          </>
+        ) : tab === "slang" ? (
+          <>
+            <div style={{ background: "#ffffff", borderRadius: 28, padding: 20, height: slangMapH, display: "flex", justifyContent: "center" }}>
+              <RealBdMap
+                activeIds={activeIds}
+                activeFill={accent}
+                idleFill="#e8e2d5"
+                labelFill="#1f2937"
+                labelHalo="#ffffff"
+                labelLimit={20}
+                className="h-full w-auto"
+              />
+            </div>
+            {pickedPhrases.length > 0 ? (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                {pickedPhrases.map((p) => (
+                  <ChipSm key={p.id} label={`🗣️ ${p.phrase}`} dark={dark} />
+                ))}
+              </div>
+            ) : (
+              <span style={{ fontSize: 32, opacity: 0.7 }}>ভাষা সিলেক্ট করো 👆</span>
             )}
           </>
         ) : (
