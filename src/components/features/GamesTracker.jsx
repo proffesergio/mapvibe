@@ -18,8 +18,8 @@ export function GamesTracker() {
 
   useEffect(() => {
     const onChange = () => setBase(getBaseGames());
-    window.addEventListener("mapvibe:change", onChange);
-    return () => window.removeEventListener("mapvibe:change", onChange);
+    window.addEventListener("vibemap:change", onChange);
+    return () => window.removeEventListener("vibemap:change", onChange);
   }, []);
 
   const all = [...base, ...custom.filter((g) => !base.some((b) => b.id === g.id))];

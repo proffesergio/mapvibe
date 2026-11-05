@@ -3,7 +3,7 @@ import { AvatarCard } from "@/components/studio/AvatarCard";
 import { PosterSection } from "@/components/poster/PosterSection";
 
 export const metadata = {
-  title: "খেলাধুলা ম্যাপ — ম্যাপভাইব",
+  title: "খেলাধুলা ম্যাপ — ভাইবম্যাপ",
   description: "ছোটবেলার খেলা সিলেক্ট করে ১০৮০×১০৮০ পোস্টার বানাও।",
 };
 

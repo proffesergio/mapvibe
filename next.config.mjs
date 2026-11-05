@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  // Production aliases use relative API/asset URLs; configure both in Vercel.
   reactCompiler: true,
 };
 

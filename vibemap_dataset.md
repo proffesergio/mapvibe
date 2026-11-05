@@ -1,4 +1,4 @@
-# MapVibe (ম্যাপভাইব) Static Asset & Dataset Reference Document
+# VibeMap (ভাইবম্যাপ) Static Asset & Dataset Reference Document
 This document contains the optimized, raw JSON arrays of regional slang, childhood elements, and districts to be copy-pasted directly into the Next.js/Tailwind source files during vibe coding.
 
 ---

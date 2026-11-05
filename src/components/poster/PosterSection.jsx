@@ -31,7 +31,7 @@ export function PosterSection({ tab }) {
     return () => ro.disconnect();
   }, []);
 
-  const caption = `আমার ম্যাপভাইব পোস্টার! 🗺️🇧🇩 #MapVibe #বাংলাদেশ`;
+  const caption = `আমার ভাইবম্যাপ পোস্টার! 🗺️🇧🇩 #VibeMap #বাংলাদেশ`;
 
   const onDownload = async (fmt) => {
     if (busyFmt) return;
@@ -39,9 +39,9 @@ export function PosterSection({ tab }) {
     setError("");
     setDone(false);
     try {
-      if (fmt === "jpg") await downloadJpg(posterRef.current, `mapvibe-${tab}-1080.jpg`);
-      else if (fmt === "pdf") await downloadPdf(posterRef.current, `mapvibe-${tab}-1080.pdf`);
-      else await downloadPoster(posterRef.current, `mapvibe-${tab}-1080.png`);
+      if (fmt === "jpg") await downloadJpg(posterRef.current, `vibemap-${tab}-1080.jpg`);
+      else if (fmt === "pdf") await downloadPdf(posterRef.current, `vibemap-${tab}-1080.pdf`);
+      else await downloadPoster(posterRef.current, `vibemap-${tab}-1080.png`);
       setDone(true);
     } catch {
       setError("ডাউনলোড ব্যর্থ — আরেকবার চেষ্টা করো।");

@@ -25,8 +25,8 @@ export function useStudioSnapshot() {
   useEffect(() => {
     setSnap(readAll());
     const onChange = () => setSnap(readAll());
-    window.addEventListener("mapvibe:change", onChange);
-    return () => window.removeEventListener("mapvibe:change", onChange);
+    window.addEventListener("vibemap:change", onChange);
+    return () => window.removeEventListener("vibemap:change", onChange);
   }, []);
 
   return snap;

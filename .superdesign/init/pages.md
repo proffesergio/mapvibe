@@ -1,0 +1,119 @@
+- src/app/page.js
+  - src/data/tiers.js
+  - src/components/ui/BdFlag.jsx
+
+- src/app/admin/page.js
+  - src/components/admin/AdminPanel.jsx
+    - src/data/districts.js
+    - src/lib/adminData.js
+      - src/data/games.js
+      - src/data/slangs.js
+      - src/lib/storage.js
+    - src/components/ui/Card.jsx
+      - src/lib/cn.js
+    - src/components/ui/Button.jsx
+  - src/components/admin/PasswordForm.jsx
+    - src/app/admin/actions.js
+
+- src/app/slang/page.js
+  - src/components/features/SlangTracker.jsx
+    - src/data/slangs.js
+    - src/data/districts.js
+    - src/data/upazilas.js
+    - src/hooks/usePersistentState.js
+      - src/lib/storage.js
+    - src/hooks/usePublicSlangs.js
+    - src/lib/rank.js
+      - src/data/tiers.js
+    - src/lib/cn.js
+    - src/components/map/StudioMap.jsx
+      - src/components/map/RealBdMap.jsx
+        - src/data/bd-geo.json
+      - src/components/ui/Card.jsx
+    - src/components/ui/Button.jsx
+  - src/components/studio/AvatarCard.jsx
+    - src/components/avatar/AvatarUploader.jsx
+      - src/lib/image.js
+      - src/components/auth/OAuthButtons.jsx
+  - src/components/poster/PosterSection.jsx
+    - src/hooks/useStudioSnapshot.js
+    - src/lib/download.js
+    - src/components/poster/PosterCanvas.jsx
+      - src/data/games.js
+      - src/lib/adminData.js
+      - src/components/ui/BdFlag.jsx
+
+- src/app/games/page.js
+  - src/components/features/GamesTracker.jsx
+    - src/lib/adminData.js
+      - src/data/games.js
+      - src/data/slangs.js
+      - src/lib/storage.js
+    - src/hooks/usePersistentState.js
+    - src/lib/rank.js
+      - src/data/tiers.js
+    - src/lib/cn.js
+    - src/components/ui/Card.jsx
+    - src/components/ui/Button.jsx
+  - src/components/studio/AvatarCard.jsx
+    - src/components/avatar/AvatarUploader.jsx
+      - src/lib/image.js
+      - src/components/auth/OAuthButtons.jsx
+  - src/components/poster/PosterSection.jsx
+    - src/hooks/useStudioSnapshot.js
+    - src/lib/download.js
+    - src/components/poster/PosterCanvas.jsx
+      - src/data/districts.js
+      - src/components/map/RealBdMap.jsx
+        - src/data/bd-geo.json
+      - src/components/ui/BdFlag.jsx
+
+- src/app/explorer/page.js
+  - src/components/features/ExplorerTracker.jsx
+    - src/hooks/usePersistentState.js
+      - src/lib/storage.js
+    - src/hooks/useStudioSnapshot.js
+    - src/lib/rank.js
+      - src/data/tiers.js
+    - src/lib/cn.js
+    - src/data/districts.js
+    - src/components/map/RealBdMap.jsx
+      - src/data/bd-geo.json
+    - src/components/poster/PosterCanvas.jsx
+      - src/data/slangs.js
+      - src/data/games.js
+      - src/lib/adminData.js
+      - src/components/ui/BdFlag.jsx
+    - src/components/avatar/AvatarUploader.jsx
+      - src/lib/image.js
+      - src/components/ui/Button.jsx
+      - src/components/auth/OAuthButtons.jsx
+    - src/lib/download.js
+    - src/components/ui/Card.jsx
+
+- src/app/nostalgia/page.js
+  - src/components/features/NostalgiaPicker.jsx
+    - src/data/games.js
+    - src/data/districts.js
+    - src/hooks/usePersistentState.js
+      - src/lib/storage.js
+    - src/lib/rank.js
+      - src/data/tiers.js
+    - src/lib/cn.js
+    - src/components/map/StudioMap.jsx
+      - src/components/map/RealBdMap.jsx
+        - src/data/bd-geo.json
+      - src/components/ui/Card.jsx
+    - src/components/map/DistrictChips.jsx
+    - src/components/ui/Button.jsx
+  - src/components/studio/AvatarCard.jsx
+    - src/components/avatar/AvatarUploader.jsx
+      - src/lib/image.js
+      - src/components/auth/OAuthButtons.jsx
+  - src/components/poster/PosterSection.jsx
+    - src/hooks/useStudioSnapshot.js
+    - src/lib/download.js
+    - src/components/poster/PosterCanvas.jsx
+      - src/data/slangs.js
+      - src/lib/adminData.js
+      - src/components/ui/BdFlag.jsx

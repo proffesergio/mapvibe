@@ -3,7 +3,7 @@ import { AvatarCard } from "@/components/studio/AvatarCard";
 import { PosterSection } from "@/components/poster/PosterSection";
 
 export const metadata = {
-  title: "নস্টালজিয়া ম্যাপ — ম্যাপভাইব",
+  title: "নস্টালজিয়া ম্যাপ — ভাইবম্যাপ",
   description: "দশক, স্মৃতি ও শৈশবের জেলা বেছে রেট্রো পোস্টার বানাও।",
 };
 

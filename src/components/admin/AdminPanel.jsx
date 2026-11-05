@@ -67,7 +67,7 @@ export function AdminPanel() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "mapvibe-dataset.json";
+    a.download = "vibemap-dataset.json";
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -246,7 +246,7 @@ export function AdminPanel() {
       {tab === "export" && (
         <Card>
           <SectionTitle emoji="📦" title="ডেটাসেট এক্সপোর্ট" desc="এই ডিভাইসের লোকাল এডিট JSON হিসেবে ডাউনলোড করো" />
-          <Button onClick={downloadJSON}>⬇️ mapvibe-dataset.json ডাউনলোড</Button>
+          <Button onClick={downloadJSON}>⬇️ vibemap-dataset.json ডাউনলোড</Button>
           <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">
             💡 পাবলিক ভাষা ডেটা এখন Neon ডাটাবেজে থাকে — রিপোর্ট ৫+ হলে এন্ট্রি অটো-হাইড হয়।
           </p>

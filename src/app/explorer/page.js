@@ -1,10 +1,8 @@
 import { ExplorerTracker } from "@/components/features/ExplorerTracker";
-import { AvatarCard } from "@/components/studio/AvatarCard";
-import { PosterSection } from "@/components/poster/PosterSection";
 
 export const metadata = {
-  title: "এক্সপ্লোরার লিডারবোর্ড — ম্যাপভাইব",
-  description: "ঘোরা জেলা মার্ক করে র‍্যাংক, মেডেল ও ১০৮০×১০৮০ পোস্টার নাও।",
+  title: "এক্সপ্লোরার লিডারবোর্ড — ভাইবম্যাপ",
+  description: "ঘোরা জেলা মার্ক করে র‍্যাংক, মেডেল ও ১০৮০×১০৮০ JPG পোস্টার নাও।",
 };
 
 export default function ExplorerPage() {
@@ -15,12 +13,12 @@ export default function ExplorerPage() {
           🏆 এলিট এক্সপ্লোরার লিডারবোর্ড
         </h1>
         <p className="mt-1 text-slate-600 dark:text-slate-300">
-          ঘোরা জেলা মার্ক করো → র‍্যাংক দেখো → ছবি দাও → পোস্টার ডাউনলোড করো
+          বামে একটাই লাইভ ম্যাপ → ডানে জেলা সিলেক্ট করো → JPG ডাউনলোড করো
         </p>
       </header>
+      {/* Single-map studio: interactive map + selector + photo + JPG export live together.
+          No second visible map — the 1080 poster node is hidden off-screen for export only. */}
       <ExplorerTracker />
-      <AvatarCard />
-      <PosterSection tab="explorer" />
     </div>
   );
 }

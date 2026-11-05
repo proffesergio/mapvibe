@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/Button";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "অ্যাডমিন — ম্যাপভাইব",
-  description: "MapVibe content management (password protected)",
+  title: "অ্যাডমিন — ভাইবম্যাপ",
+  description: "VibeMap content management (password protected)",
 };
 
 export default async function AdminPage({ searchParams }) {

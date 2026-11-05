@@ -1,6 +1,43 @@
+# VibeMap · ভাইবম্যাপ
+
+A public directory of apps, websites and digital products built across Bangladesh’s 64 districts. Next.js 16, React 19, Tailwind 4 and Neon Postgres.
+
+## Directory
+
+Submit a project with a public URL, description, district, category and tech stack. Successful Neon writes immediately appear in the client directory. The SVG uses the existing district boundary dataset and its projected district anchors; these are district-level representative positions, not developer GPS coordinates. Multiple projects share a district pin with a count and a selectable project list.
+
+Search, category, district, stack and Carbon Copy filters run on the server with cursor pagination (50 records maximum per page). The map represents loaded results; load more to extend it. Category and stack groups generate a bounded graph of up to 100 connections, avoiding quadratic comparisons or external AI calls. Mobile layouts, native keyboard-accessible dialogs, visible focus states and reduced-motion support are included.
+
+Carbon Copy is an automated similarity hint, not an accusation. Up to 200 recent same-category projects are compared using normalized name and description token overlap. Evidence includes the matched project and similarity scores. Paraphrases, older projects outside that window and cross-category copies may be missed. Canonical URLs have a database uniqueness constraint.
+
+## Setup
+
+1. Install dependencies with `npm install`.
+2. Copy `.env.example` to `.env.local` and set `DATABASE_URL` to your Neon connection string.
+3. Run `scripts/neon-tools-schema.sql` once in the Neon SQL Editor. This additive migration leaves existing slang tables intact.
+4. Use `npm run dev` when your machine has capacity. `npm test` runs lightweight pure backend checks.
+
+Without Neon, the directory explicitly reports offline and submissions return HTTP 503. No fake public submissions or temporary in-memory database are used.
+
+## Deployment and repository migration
+
+Attach **vibemap.vercel.app** and **vibemapbd.vercel.app** to the same Vercel project. APIs and asset URLs are relative, so both aliases use the same Neon database without CORS configuration. Set `NEXT_PUBLIC_SITE_URL` and `NEXTAUTH_URL` to your chosen primary domain. OAuth providers must allow that primary origin’s `/api/auth/callback/<provider>` URL; sign-in sessions remain origin scoped.
+
+The supplied replacement repository URL (`https://github.com`) is a host, not a repository destination. No remote is invented or changed. After creating the destination repository, update the Git remote and reconnect the Vercel Git integration to its actual URL. Hosting aliases, OAuth settings and database migration have not been applied remotely.
+
+## Verification and design status
+
+Backend unit tests and source syntax checks are lightweight. Production build and browser/visual checks are intentionally deferred at the user’s request to avoid machine crashes. No local servers are required for these checks. The responsive directory uses a dark forest/mint system with CSS perspective, hover depth and lightweight pin animation. 12ui candidates were generated and inspected; pixel-aligned conversion and Superdesign draft completion are not verified after interrupted sessions.
+
+Legacy poster, language, games, nostalgia and explorer routes remain accessible from the navigation/footer. The dataset reference is `vibemap_dataset.md`.
+
+---
+
+<details><summary>Legacy poster documentation</summary>
+
 <div align="center">
 
-# 🗺️ ম্যাপভাইব — MapVibe
+# 🗺️ ভাইবম্যাপ — VibeMap
 
 ### নিজের এলাকার ভাষা, শৈশবের স্মৃতি আর ঘোরা জেলা —<br/>১ মিনিটে সুন্দর বাংলাদেশ ম্যাপ পোস্টার বানাও, ফেসবুকে শেয়ার করো
 
@@ -16,9 +53,9 @@
 
 ---
 
-## ম্যাপভাইব কী?
+## ভাইবম্যাপ কী?
 
-ম্যাপভাইব একটা ইন্টার‌্যাক্টিভ বাংলাদেশ ম্যাপ পোস্টার মেকার। থিম বেছে নাও, ম্যাপে ট্যাপ করো, নিজের ছবি দাও — সুন্দর একটা পোস্টার তৈরি হয়ে যাবে, যেটা ডাউনলোড করে ফেসবুক ওয়াল বা স্টোরিতে দিতে পারো।
+ভাইবম্যাপ একটা ইন্টার‌্যাক্টিভ বাংলাদেশ ম্যাপ পোস্টার মেকার। থিম বেছে নাও, ম্যাপে ট্যাপ করো, নিজের ছবি দাও — সুন্দর একটা পোস্টার তৈরি হয়ে যাবে, যেটা ডাউনলোড করে ফেসবুক ওয়াল বা স্টোরিতে দিতে পারো।
 
 কোনো অ্যাকাউন্ট লাগে না। তোমার ছবি তোমার ফোনেই থাকে।
 
@@ -114,3 +151,5 @@
 নিজেরটা বানাও → বন্ধুদের ট্যাগ করো → দেখো কে কটা ভাষা বোঝে!
 
 </div>
+
+</details>

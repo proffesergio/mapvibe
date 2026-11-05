@@ -3,7 +3,7 @@ import { AvatarCard } from "@/components/studio/AvatarCard";
 import { PosterSection } from "@/components/poster/PosterSection";
 
 export const metadata = {
-  title: "ভাষা ম্যাপ — ম্যাপভাইব",
+  title: "ভাষা ম্যাপ — ভাইবম্যাপ",
   description: "আঞ্চলিক ভাষা যোগ করো, ম্যাপে দেখো, পোস্টার ডাউনলোড করো।",
 };
 

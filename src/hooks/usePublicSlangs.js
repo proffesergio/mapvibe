@@ -12,7 +12,7 @@ const norm = (s) => ({
   division: s.division ?? "",
   districtId: s.districtId ?? s.regionId ?? "dhaka",
   upazila: s.upazila ?? "",
-  contributor: s.contributor ?? "mapvibe",
+  contributor: s.contributor ?? "vibemap",
   upvotes: Number(s.upvotes ?? 0),
   reports: Number(s.reports ?? 0),
   local: Boolean(s.local),

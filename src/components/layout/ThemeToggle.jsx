@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 function currentTheme() {
   if (typeof window === "undefined") return "light";
-  const saved = window.localStorage.getItem("mapvibe:theme");
+  const saved = window.localStorage.getItem("vibemap:theme");
   if (saved === "dark" || saved === "light") return saved;
   return "light"; // Light default per user choice
 }
@@ -21,7 +21,7 @@ export function ThemeToggle() {
     root.classList.toggle("dark", theme === "dark");
     root.style.colorScheme = theme;
     try {
-      window.localStorage.setItem("mapvibe:theme", theme);
+      window.localStorage.setItem("vibemap:theme", theme);
     } catch {
       /* ignore */
     }

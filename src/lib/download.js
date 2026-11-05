@@ -25,14 +25,14 @@ async function renderPng(node) {
  * The poster node itself should be styled at 1080px; pixelRatio scales
  * smaller preview nodes up without blurring text.
  */
-export async function downloadPoster(node, filename = "mapvibe-1080.png") {
+export async function downloadPoster(node, filename = "vibemap-1080.png") {
   const dataUrl = await renderPng(node);
   triggerDownload(dataUrl, filename);
   return dataUrl;
 }
 
 /** 1080x1080 JPG (smaller file, easy to share on Messenger/WhatsApp). */
-export async function downloadJpg(node, filename = "mapvibe-1080.jpg") {
+export async function downloadJpg(node, filename = "vibemap-1080.jpg") {
   if (!node) throw new Error("Poster node not found");
   const dataUrl = await toJpeg(node, { ...BASE_OPTS, quality: 0.92, backgroundColor: "#ffffff" });
   triggerDownload(dataUrl, filename);
@@ -40,7 +40,7 @@ export async function downloadJpg(node, filename = "mapvibe-1080.jpg") {
 }
 
 /** Square one-page PDF (1080px → 810pt) for print / archive. */
-export async function downloadPdf(node, filename = "mapvibe-1080.pdf") {
+export async function downloadPdf(node, filename = "vibemap-1080.pdf") {
   const dataUrl = await renderPng(node);
   const { jsPDF } = await import("jspdf");
   const pt = (POSTER_SIZE * 72) / 96; // 810pt square page

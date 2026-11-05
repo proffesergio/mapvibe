@@ -2,10 +2,10 @@
 
 /**
  * Safe localStorage helpers (zero-database constraint).
- * All keys are namespaced under `mapvibe:`.
+ * All keys are namespaced under `vibemap:`.
  */
 
-const PREFIX = "mapvibe:";
+const PREFIX = "vibemap:";
 
 function isBrowser() {
   return typeof window !== "undefined" && typeof window.localStorage !== "undefined";

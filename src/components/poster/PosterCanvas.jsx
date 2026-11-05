@@ -88,6 +88,8 @@ function ChipSm({ label, dark }) {
 export function PosterCanvas({ tab, snap, innerRef }) {
   const meta = FEATURE_TABS.find((t) => t.id === tab) ?? FEATURE_TABS[0];
   const name = snap.name?.trim() || "আমি";
+  // Explorer header beside avatar/name — Bangla unicode (never Banglish).
+  const headline = tab === "explorer" ? "আমার চোখে বাংলাদেশ" : meta.headline;
   const dark = tab === "nostalgia" && snap.decadeId === "2010s";
   const is80s = tab === "nostalgia" && snap.decadeId === "80s";
   const th = dark ? THEMES["nostalgia-dark"] : is80s ? THEMES["nostalgia-80s"] : THEMES[tab] ?? THEMES.slang;
@@ -165,7 +167,7 @@ export function PosterCanvas({ tab, snap, innerRef }) {
     >
       {/* Brand bar */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span style={{ fontSize: 36, fontWeight: 800 }}>🗺️ ম্যাপভাইব</span>
+        <span style={{ fontSize: 36, fontWeight: 800 }}>🗺️ ভাইবম্যাপ</span>
         <span style={{ fontSize: 32, fontWeight: 700, background: th.soft, padding: "8px 24px", borderRadius: 9999 }}>
           {meta.emoji} {meta.label}
         </span>
@@ -183,7 +185,7 @@ export function PosterCanvas({ tab, snap, innerRef }) {
         </div>
         <div>
           <div style={{ fontSize: 64, fontWeight: 800, lineHeight: 1.15 }}>{name}</div>
-          <div style={{ fontSize: 34, fontWeight: 700, opacity: 0.75 }}>{meta.headline}</div>
+          <div style={{ fontSize: 34, fontWeight: 700, opacity: 0.75 }}>{headline}</div>
         </div>
       </div>
 
@@ -302,7 +304,7 @@ export function PosterCanvas({ tab, snap, innerRef }) {
         <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <BdFlag size={40} rounded={6} /> ১ মিনিটে বানাও • ফেসবুকে শেয়ার করো
         </span>
-        <span>mapvibe</span>
+        <span>vibemap</span>
       </div>
     </div>
   );

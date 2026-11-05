@@ -3,7 +3,7 @@ import { SLANGS } from "@/data/slangs";
 import { loadJSON, removeKey, saveJSON } from "@/lib/storage";
 
 function broadcast() {
-  if (typeof window !== "undefined") window.dispatchEvent(new Event("mapvibe:change"));
+  if (typeof window !== "undefined") window.dispatchEvent(new Event("vibemap:change"));
 }
 
 /** Admin overrides (this device) merged over the built-in dataset. */

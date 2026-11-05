@@ -18,7 +18,7 @@ export function usePersistentState(key, initial) {
     if (!loaded.current) return;
     saveJSON(key, value);
     // Notify same-tab listeners (e.g. poster preview) of the change.
-    window.dispatchEvent(new Event("mapvibe:change"));
+    window.dispatchEvent(new Event("vibemap:change"));
   }, [key, value]);
 
   return [value, setValue];

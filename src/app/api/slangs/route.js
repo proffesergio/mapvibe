@@ -10,7 +10,7 @@ const FALLBACK = () =>
     division: "",
     districtId: s.regionId,
     upazila: "",
-    contributor: "mapvibe",
+    contributor: "vibemap",
     upvotes: 0,
     reports: 0,
     createdAt: null,

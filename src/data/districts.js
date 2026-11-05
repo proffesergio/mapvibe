@@ -1,6 +1,6 @@
 /**
  * 64 districts grouped by division.
- * Source: mapvibe_dataset.md — ids are stable hooks for the SVG map.
+ * Source: vibemap_dataset.md — ids are stable hooks for the SVG map.
  */
 export const DISTRICTS = [
   { id: "dhaka", name: "ঢাকা", division: "Dhaka" },
