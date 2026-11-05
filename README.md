@@ -23,7 +23,7 @@ Without Neon, the directory explicitly reports offline and submissions return HT
 
 Attach **vibemap.vercel.app** and **vibemapbd.vercel.app** to the same Vercel project. APIs and asset URLs are relative, so both aliases use the same Neon database without CORS configuration. Set `NEXT_PUBLIC_SITE_URL` and `NEXTAUTH_URL` to your chosen primary domain. OAuth providers must allow that primary origin’s `/api/auth/callback/<provider>` URL; sign-in sessions remain origin scoped.
 
-The supplied replacement repository URL (`https://github.com`) is a host, not a repository destination. No remote is invented or changed. After creating the destination repository, update the Git remote and reconnect the Vercel Git integration to its actual URL. Hosting aliases, OAuth settings and database migration have not been applied remotely.
+The supplied replacement repository URL (`https://github.com`) is a host, not a repository destination. No remote is invented or changed. After creating the destination repository, update the Git remote and reconnect the Vercel Git integration to its actual URL. The `vibemapbd.vercel.app` alias is attached to the existing Vercel project. `vibemap.vercel.app` is already in use and could not be claimed. The default primary URL is `https://vibemapbd.vercel.app`. OAuth settings and database migration have not been applied remotely.
 
 ## Verification and design status
 

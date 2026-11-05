@@ -19,7 +19,7 @@ const hind = Hind_Siliguri({
 });
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://vibemap.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://vibemapbd.vercel.app"),
   title: "VibeMap — Built in Bangladesh",
   description:
     "Discover apps, websites and digital products built by Bangladeshi developers across all 64 districts.",
