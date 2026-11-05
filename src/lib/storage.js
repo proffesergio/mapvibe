@@ -14,7 +14,7 @@ function isBrowser() {
 export function loadJSON(key, fallback) {
   if (!isBrowser()) return fallback;
   try {
-    const raw = window.localStorage.getItem(PREFIX + key);
+    const raw = window.localStorage.getItem(PREFIX + key) ?? window.localStorage.getItem("mapvibe:" + key);
     if (!raw) return fallback;
     return JSON.parse(raw);
   } catch {

@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "db:migrate": "node scripts/migrate-directory.mjs",
+    "prebuild": "npm run db:migrate"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.0",

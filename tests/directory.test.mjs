@@ -1,17 +1,39 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { canonicalUrl, detectCarbonCopy, encodeCursor, parseListQuery, validateTool } from "../src/lib/directory.js";
+import { canonicalUrl, detectCarbonCopy, encodeCursor, parseListQuery, screenshotUrl, validateTool } from "../src/lib/directory.js";
+import { TECH_STACK_GROUPS, TOOL_CATEGORIES } from "../src/data/tool-options.js";
 
 const project = {
   name: "Bangla Notes", description: "A shared note workspace for Bengali study groups.",
   url: "https://notes.example.org/", district: "dhaka", category: "Education", stack: ["React", "Postgres"],
 };
 
-test("validates a project using known district IDs and category", () => {
-  assert.deepEqual(validateTool(project), project);
+test("validates a project using known district IDs and custom categories", () => {
+  assert.deepEqual(validateTool(project), { ...project, screenshotUrl: null });
   assert.throws(() => validateTool({ ...project, district: "made-up" }), /district/);
-  assert.throws(() => validateTool({ ...project, category: "Games" }), /category/);
+  assert.equal(validateTool({ ...project, category: "  Civic tech  " }).category, "Civic tech");
+  assert.throws(() => validateTool({ ...project, category: "X" }), /category/);
+  assert.throws(() => validateTool({ ...project, category: "a".repeat(61) }), /category/);
+  assert.throws(() => validateTool({ ...project, category: "Line\nBreak" }), /category/);
   assert.throws(() => validateTool({ ...project, stack: ["React", "react"] }), /unique/);
+});
+
+test("category and stack catalogs offer broad defaults without restricting custom entries", () => {
+  for (const category of ["Ecommerce", "SaaS", "PaaS", "Games"]) assert.ok(TOOL_CATEGORIES.includes(category));
+  const entries = Object.values(TECH_STACK_GROUPS).flat();
+  assert.ok(entries.length >= 100);
+  assert.equal(new Set(entries).size, entries.length);
+  assert.deepEqual(validateTool({ ...project, stack: ["My custom stack"] }).stack, ["My custom stack"]);
+});
+
+test("screenshot accepts public HTTPS URLs and bounded embedded images", () => {
+  assert.equal(screenshotUrl(null), null);
+  assert.equal(screenshotUrl("https://images.example.org/shot.png"), "https://images.example.org/shot.png");
+  const data = `data:image/png;base64,${Buffer.from("image bytes").toString("base64")}`;
+  assert.equal(validateTool({ ...project, screenshotUrl: data }).screenshotUrl, data);
+  for (const value of ["http://images.example.org/a.png", "https://localhost/a.png", "data:image/svg+xml;base64,PHN2Zz4=", `data:image/png;base64,${Buffer.alloc(350 * 1024 + 1).toString("base64")}`]) {
+    assert.throws(() => screenshotUrl(value), /screenshotUrl/);
+  }
 });
 
 test("canonicalizes URLs and rejects local or credentialed targets", () => {
@@ -36,6 +58,8 @@ test("pagination cursors round trip and invalid filters fail", () => {
   const parsed = parseListQuery(new URLSearchParams({ cursor, category: "Education", district: "dhaka", limit: "10" }));
   assert.deepEqual(parsed.cursor, { id: "42", createdAt: "2026-01-01T00:00:00.000Z" });
   assert.equal(parsed.limit, 10);
+  assert.equal(parseListQuery(new URLSearchParams({ category: "Civic tech" })).category, "Civic tech");
+  assert.throws(() => parseListQuery(new URLSearchParams({ category: "x" })), /category/);
   assert.throws(() => parseListQuery(new URLSearchParams({ cursor: "broken" })), /cursor/);
   assert.throws(() => parseListQuery(new URLSearchParams({ limit: "500" })), /limit/);
 });

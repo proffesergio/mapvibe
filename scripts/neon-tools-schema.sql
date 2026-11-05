@@ -7,12 +7,20 @@ create table if not exists directory_tools (
   url text not null,
   canonical_url text not null unique,
   district_id text not null,
-  category text not null check (category in ('AI', 'Productivity', 'Developer tools', 'Design', 'Education', 'Other')),
+  category text not null,
   stack text[] not null default '{}',
+  screenshot_url text,
   carbon_copy boolean not null default false,
   carbon_copy_evidence jsonb,
   created_at timestamptz not null default now()
 );
+
+-- Also upgrades tables created with the earlier fixed-category schema.
+alter table directory_tools add column if not exists screenshot_url text;
+alter table directory_tools drop constraint if exists directory_tools_category_check;
+alter table directory_tools drop constraint if exists directory_tools_category_length_check;
+alter table directory_tools add constraint directory_tools_category_length_check
+  check (char_length(category) between 2 and 60 and category !~ '[[:cntrl:]]');
 
 create index if not exists directory_tools_created_idx on directory_tools (created_at desc, id desc);
 create index if not exists directory_tools_category_created_idx on directory_tools (category, created_at desc, id desc);

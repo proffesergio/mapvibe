@@ -14,7 +14,7 @@ Carbon Copy is an automated similarity hint, not an accusation. Up to 200 recent
 
 1. Install dependencies with `npm install`.
 2. Copy `.env.example` to `.env.local` and set `DATABASE_URL` to your Neon connection string.
-3. Run `scripts/neon-tools-schema.sql` once in the Neon SQL Editor. This additive migration leaves existing slang tables intact.
+3. Run `npm run db:migrate` with `DATABASE_URL` configured, or execute `scripts/neon-tools-schema.sql` in Neon SQL Editor. Production builds run this idempotent migration automatically before Next.js compilation; existing slang tables remain intact.
 4. Use `npm run dev` when your machine has capacity. `npm test` runs lightweight pure backend checks.
 
 Without Neon, the directory explicitly reports offline and submissions return HTTP 503. No fake public submissions or temporary in-memory database are used.
@@ -153,3 +153,5 @@ Legacy poster, language, games, nostalgia and explorer routes remain accessible 
 </div>
 
 </details>
+
+Directory submissions support 20 preset categories and custom categories. The searchable stack picker offers a grouped technology catalog and custom entries (up to 12). Optional screenshots are resized in the browser, validated as PNG/JPEG/WebP, and stored with the project in Neon. Legacy maps are grouped under Explore for fun; saved pre-rebrand local progress remains readable.
