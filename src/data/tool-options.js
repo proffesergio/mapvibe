@@ -12,5 +12,6 @@ export const TECH_STACK_GROUPS = {
   "Database and storage": ["PostgreSQL", "MySQL", "SQLite", "MongoDB", "Redis", "Supabase", "Firebase", "Neon", "PlanetScale", "DynamoDB", "Elasticsearch", "Meilisearch", "Cloudflare R2", "Amazon S3"],
   "Cloud and deployment": ["Vercel", "Netlify", "Cloudflare", "AWS", "Google Cloud", "Azure", "Docker", "Kubernetes", "Railway", "Render", "Fly.io", "DigitalOcean", "Terraform"],
   "AI and data": ["OpenAI", "Anthropic", "Gemini", "Hugging Face", "LangChain", "LlamaIndex", "Ollama", "PyTorch", "TensorFlow", "Pandas", "NumPy", "Apache Spark", "Pinecone", "Weaviate"],
-  "Payments and services": ["Stripe", "PayPal", "Lemon Squeezy", "Clerk", "Auth0", "NextAuth.js", "Resend", "Twilio", "Algolia", "Sanity", "Contentful", "Prisma", "Drizzle ORM"],
+  "Builder tools": ["Cursor", "GitHub Copilot", "Claude Code", "Codex", "Replit", "Lovable", "Bolt", "v0", "Windsurf", "Figma", "Framer", "Webflow", "WordPress", "Shopify", "WooCommerce", "Bubble", "n8n", "Make", "Zapier"],
+  "Payments and services": ["bKash", "Nagad", "SSLCOMMERZ","Stripe", "PayPal", "Lemon Squeezy", "Clerk", "Auth0", "NextAuth.js", "Resend", "Twilio", "Algolia", "Sanity", "Contentful", "Prisma", "Drizzle ORM"],
 };

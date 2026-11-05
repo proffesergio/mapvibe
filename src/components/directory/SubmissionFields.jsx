@@ -34,8 +34,8 @@ export function SubmissionFields({ categories = TOOL_CATEGORIES, onProcessingCha
       canvas.height = Math.max(1, Math.round(image.height * ratio));
       canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height);
       let data = canvas.toDataURL("image/webp", .75);
-      if (data.length > 350000) data = canvas.toDataURL("image/jpeg", .45);
-      if (data.length > 350000) throw new Error("Image is too detailed. Choose a smaller screenshot.");
+      if (data.length > 240000) data = canvas.toDataURL("image/jpeg", .45);
+      if (data.length > 240000) throw new Error("Image is too detailed. Choose a smaller screenshot.");
       setScreenshot(data);
     } catch (error) {
       setImageError(error.message || "Could not read the image.");

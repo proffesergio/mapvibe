@@ -26,8 +26,8 @@ export function screenshotUrl(value) {
     const match = /^data:image\/(png|jpeg|webp);base64,([A-Za-z0-9+/]+={0,2})$/.exec(value);
     if (!match || match[2].length % 4 !== 0) throw new Error("screenshotUrl must be PNG, JPEG, or WebP image data");
     const bytes = Buffer.from(match[2], "base64");
-    if (!bytes.length || bytes.length > 350 * 1024 || bytes.toString("base64") !== match[2]) {
-      throw new Error("screenshotUrl image data must be at most 350 KB");
+    if (!bytes.length || bytes.length > 200 * 1024 || bytes.toString("base64") !== match[2]) {
+      throw new Error("screenshotUrl image data must be at most 200 KB");
     }
     return value;
   }
@@ -113,11 +113,11 @@ export function parseListQuery(params) {
   const stack = (params.get("stack") ?? "").trim();
   const carbonCopy = params.get("carbonCopy") === "true";
   if (stack.length > 40) throw new Error("stack must be at most 40 characters");
-  const limitRaw = params.get("limit") ?? "24";
+  const limitRaw = params.get("limit") ?? "10";
   if (q.length > 100) throw new Error("q must be at most 100 characters");
   const normalizedCategory = category && category !== "all" ? categoryText(category) : "";
   if (district && district !== "all" && !districtSet.has(district)) throw new Error("invalid district");
-  if (!/^\d+$/.test(limitRaw) || Number(limitRaw) < 1 || Number(limitRaw) > 50) throw new Error("limit must be 1–50");
+  if (!/^\d+$/.test(limitRaw) || Number(limitRaw) < 1 || Number(limitRaw) > 10) throw new Error("limit must be 1–10");
   const cursorRaw = params.get("cursor");
   let cursor = null;
   if (cursorRaw) {
